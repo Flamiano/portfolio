@@ -11,7 +11,7 @@ export const Footer = () => {
           <p className="text-sm">
             &copy; {new Date().getFullYear()}{" "}
             <span className="font-semibold">John Roel R. Flamiano</span>. All
-            rights reserved.
+            rights&nbsp;reserved.
           </p>
         </div>
 

@@ -1,3 +1,7 @@
+{
+  /* eslint-disable react/no-unescaped-entities */
+}
+
 import {
   Code2,
   Database,
@@ -11,6 +15,7 @@ import Link from "next/link";
 import { Navbar } from "./components/Navbar";
 import ParticlesBg from "./ParticlesBg";
 import { Footer } from "./components/Footer";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -183,10 +188,12 @@ export default function Home() {
 
             {/* Right - Image */}
             <div className="w-full lg:w-1/2 flex justify-center">
-              <img
-                src="/mypic2.jpg"
+              <Image
+                src="/mypic2.png"
                 alt="About Me"
-                className="rounded-xl shadow-lg w-[300px] h-auto object-cover"
+                width={300}
+                height={300}
+                className="rounded-xl shadow-lg object-cover"
               />
             </div>
           </div>
