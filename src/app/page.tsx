@@ -1,103 +1,198 @@
-import Image from "next/image";
+import {
+  Code2,
+  Database,
+  Server,
+  Code,
+  Coffee,
+  MessageCircle,
+  Sparkles,
+} from "lucide-react";
+import Link from "next/link";
+import { Navbar } from "./components/Navbar";
+import ParticlesBg from "./ParticlesBg";
+import { Footer } from "./components/Footer";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="relative min-h-screen font-sans overflow-hidden">
+      {/* Background Particles */}
+      <ParticlesBg />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Foreground Content */}
+      <div className="bg-transparent relative z-10">
+        <Navbar />
+
+        {/* Floating Chat Button */}
+        <Link
+          href="#contact" // Or replace with your preferred action
+          className="fixed bottom-6 right-6 z-50 bg-[#5e17eb] hover:bg-purple-800 text-white p-4 rounded-full shadow-lg transition-all duration-300"
+          title="Message me"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <MessageCircle size={24} />
+        </Link>
+
+        {/* Hero Section */}
+        <section className="max-w-[90%] mx-auto px-6 py-20 md:py-10">
+          <div className="flex flex-col md:items-start items-center text-center md:text-left">
+            {/* Top row: Name + Button */}
+            <div className="flex items-center gap-4">
+              <h1 className="text-[4rem] md:text-[90px] lg:text-[10rem] font-extrabold text-[#5e17eb] leading-tight drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                Flamiano
+              </h1>
+              <div className="hidden md:flex flex-col items-center mb-[-1rem] lg:mb-[-3.7rem]">
+                <Link
+                  href="/cv.pdf"
+                  target="_blank"
+                  download
+                  className="bg-[#5e17eb] hover:bg-purple-800 text-white px-6 py-2 rounded-full shadow-md transition text-sm md:text-base"
+                >
+                  Download CV
+                </Link>
+                <p className="text-gray-400 text-xs mt-2">
+                  Aspiring Software Engineer
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Surname */}
+          <h2 className="text-[2.6rem] md:text-[90px] lg:text-[10rem] font-extrabold text-gray-800 text-center md:text-left drop-shadow-[1px_1px_1px_rgba(0,0,0,0.2)] lg:mt-[-2rem]">
+            John Roel R.
+          </h2>
+
+          {/* Tech Stack + Description Section */}
+          <div className="mt-4 max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-center gap-10 px-4 text-center md:text-left">
+            {/* Left Side: Description */}
+            <p className="text-gray-600 text-[13px] md:text-[16px] max-w-md">
+              A passionate developer focused on full-stack web technologies and
+              building modern, scalable web applications.
+            </p>
+
+            {/* Divider */}
+            <div className="hidden md:block text-gray-400 text-3xl">|</div>
+
+            {/* Right Side: Tech Stack */}
+            <div className="text-[#5e17eb] text-[12px] md:text-[14px]">
+              <div className="flex flex-wrap justify-center md:justify-start items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Code2 size={18} />
+                  <span>PHP</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Coffee size={18} />
+                  <span>Java</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Code size={18} />
+                  <span>ReactJS</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Code size={18} />
+                  <span>NextJS</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Database size={18} />
+                  <span>MySQL</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Server size={18} />
+                  <span>Supabase</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* About Me Section */}
+        <section id="about" className="mx-auto px-6 py-20 flex flex-col gap-10">
+          {/* Heading with line */}
+          <div className="flex items-center gap-4">
+            <h3 className="text-2xl md:text-3xl font-bold text-[#5e17eba3] whitespace-nowrap">
+              ABOUT ME
+            </h3>
+            <div className="h-[2px] bg-[#5e17eb] flex-1" />
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col lg:flex-row items-center gap-10">
+            {/* Left - Text */}
+            <div className="w-full lg:w-1/2 space-y-4 text-gray-700 text-base leading-relaxed">
+              <p>
+                I'm <strong>John Roel R. Flamiano</strong>, a passionate
+                full-stack developer with experience in both frontend and
+                backend technologies. I specialize in building responsive and
+                high-performance web applications using modern tools such as{" "}
+                <strong>React</strong>, <strong>Next.js</strong>,{" "}
+                <strong>PHP</strong>, and <strong>MySQL</strong>.
+              </p>
+
+              <p>
+                I enjoy crafting digital experiences that are not only visually
+                appealing but also intuitive and accessible. Exploring emerging
+                technologies like <strong>Supabase</strong>,{" "}
+                <strong>TypeScript</strong>, and <strong>TailwindCSS</strong>{" "}
+                helps me stay up-to-date and evolve as a developer.
+              </p>
+
+              <div>
+                <p className="font-semibold mb-1 flex items-center gap-2">
+                  <Sparkles size={18} className="text-purple-600" /> My Hobbies:
+                </p>
+                <ul className="space-y-2 mt-2">
+                  <li className="flex items-center gap-2">
+                    <span className="text-purple-600 font-bold">➤</span>
+                    Playing Basketball
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-purple-600 font-bold">➤</span>
+                    Working Out / Gym
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-purple-600 font-bold">➤</span>
+                    Coding Projects
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-purple-600 font-bold">➤</span>
+                    Watching Tech & Life Content
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-purple-600 font-bold">➤</span>
+                    Playing Digital Games
+                  </li>
+                </ul>
+              </div>
+
+              <p>
+                My biggest motivation is my dream of becoming a skilled and
+                respected <strong>Software Engineer</strong>. I come from a
+                humble background, and I work hard every day to improve myself
+                and uplift my family. I believe in the power of consistency,
+                grit, and continuous learning.
+              </p>
+
+              <p className="italic text-purple-700 font-medium">
+                "Walang imposible para sa taong may pangarap at determinasyon."
+              </p>
+
+              <p>
+                I aspire to contribute to innovative tech teams, build impactful
+                solutions, and eventually lead my own projects that make a
+                difference in the world.
+              </p>
+            </div>
+
+            {/* Right - Image */}
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <img
+                src="/mypic2.jpg"
+                alt="About Me"
+                className="rounded-xl shadow-lg w-[300px] h-auto object-cover"
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+      <Footer />
     </div>
   );
 }
