@@ -8,14 +8,13 @@ export interface ChromaItem {
   title: string;
   subtitle: string;
   handle?: string;
-  location?: string;
   borderColor?: string;
   gradient?: string;
   url?: string;
 }
 
 export interface ChromaGridProps {
-  items?: ChromaItem[];
+  items: ChromaItem[]; // required
   className?: string;
   radius?: number;
   damping?: number;
@@ -39,74 +38,23 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
   const setY = useRef<SetterFn | null>(null);
   const pos = useRef({ x: 0, y: 0 });
 
-  const demo: ChromaItem[] = [
-    {
-      image: "https://i.pravatar.cc/300?img=8",
-      title: "Alex Rivera",
-      subtitle: "Full Stack Developer",
-      handle: "@alexrivera",
-      borderColor: "#4F46E5",
-      gradient: "linear-gradient(145deg,#4F46E5,#000)",
-      url: "https://github.com/",
-    },
-    {
-      image: "https://i.pravatar.cc/300?img=11",
-      title: "Jordan Chen",
-      subtitle: "DevOps Engineer",
-      handle: "@jordanchen",
-      borderColor: "#10B981",
-      gradient: "linear-gradient(210deg,#10B981,#000)",
-      url: "https://linkedin.com/in/",
-    },
-    {
-      image: "https://i.pravatar.cc/300?img=3",
-      title: "Morgan Blake",
-      subtitle: "UI/UX Designer",
-      handle: "@morganblake",
-      borderColor: "#F59E0B",
-      gradient: "linear-gradient(165deg,#F59E0B,#000)",
-      url: "https://dribbble.com/",
-    },
-    {
-      image: "https://i.pravatar.cc/300?img=16",
-      title: "Casey Park",
-      subtitle: "Data Scientist",
-      handle: "@caseypark",
-      borderColor: "#EF4444",
-      gradient: "linear-gradient(195deg,#EF4444,#000)",
-      url: "https://kaggle.com/",
-    },
-    {
-      image: "https://i.pravatar.cc/300?img=25",
-      title: "Sam Kim",
-      subtitle: "Mobile Developer",
-      handle: "@thesamkim",
-      borderColor: "#8B5CF6",
-      gradient: "linear-gradient(225deg,#8B5CF6,#000)",
-      url: "https://github.com/",
-    },
-    {
-      image: "https://i.pravatar.cc/300?img=60",
-      title: "Tyler Rodriguez",
-      subtitle: "Cloud Architect",
-      handle: "@tylerrod",
-      borderColor: "#06B6D4",
-      gradient: "linear-gradient(135deg,#06B6D4,#000)",
-      url: "https://aws.amazon.com/",
-    },
-  ];
-
-  const data = items?.length ? items : demo;
-
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    setX.current = gsap.quickSetter(el, "--x", "px") as SetterFn;
-    setY.current = gsap.quickSetter(el, "--y", "px") as SetterFn;
-    const { width, height } = el.getBoundingClientRect();
-    pos.current = { x: width / 2, y: height / 2 };
-    setX.current(pos.current.x);
-    setY.current(pos.current.y);
+
+    // Use requestAnimationFrame to ensure DOM is painted
+    requestAnimationFrame(() => {
+      setX.current = gsap.quickSetter(el, "--x", "px") as SetterFn;
+      setY.current = gsap.quickSetter(el, "--y", "px") as SetterFn;
+
+      const { width, height } = el.getBoundingClientRect();
+      pos.current = { x: width / 2, y: height / 2 };
+
+      if (setX.current && setY.current) {
+        setX.current(pos.current.x);
+        setY.current(pos.current.y);
+      }
+    });
   }, []);
 
   const moveTo = (x: number, y: number) => {
@@ -116,15 +64,18 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       duration: damping,
       ease,
       onUpdate: () => {
-        setX.current?.(pos.current.x);
-        setY.current?.(pos.current.y);
+        if (setX.current && setY.current) {
+          setX.current(pos.current.x);
+          setY.current(pos.current.y);
+        }
       },
       overwrite: true,
     });
   };
 
   const handleMove = (e: React.PointerEvent) => {
-    const r = rootRef.current!.getBoundingClientRect();
+    const r = rootRef.current?.getBoundingClientRect();
+    if (!r) return;
     moveTo(e.clientX - r.left, e.clientY - r.top);
     gsap.to(fadeRef.current, { opacity: 0, duration: 0.25, overwrite: true });
   };
@@ -148,6 +99,8 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
     c.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
   };
 
+  const item = items[0]; // using only the first item
+
   return (
     <div
       ref={rootRef}
@@ -162,14 +115,11 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
         } as React.CSSProperties
       }
     >
-      {/* SINGLE CARD */}
       <article
         onMouseMove={handleCardMove}
-        onClick={() => handleCardClick(data[0].url)}
+        onClick={() => handleCardClick(item.url)}
         className="group relative flex flex-col rounded-[16px] overflow-hidden border-2 border-purple-500 shadow-xl transition-transform duration-300 cursor-pointer hover:scale-[1.015] min-w-[260px] max-w-sm w-full"
-        style={{
-          background: data[0].gradient,
-        }}
+        style={{ background: item.gradient }}
       >
         {/* Hover Spotlight */}
         <div
@@ -180,21 +130,19 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
           }}
         />
 
-        {/* Image section (always full-color) */}
         <div className="relative z-10 p-5">
           <img
-            src={data[0].image}
-            alt={data[0].title}
+            src={item.image}
+            alt={item.title}
             className="w-full h-[400px] object-cover rounded-[10px]"
           />
         </div>
 
-        {/* Text Footer */}
         <footer className="relative z-10 px-4 pb-4 text-white font-sans">
-          <h3 className="text-base font-semibold">{data[0].title}</h3>
-          <p className="text-sm opacity-85">{data[0].subtitle}</p>
-          {data[0].handle && (
-            <p className="text-xs text-right opacity-70">{data[0].handle}</p>
+          <h3 className="text-base font-semibold">{item.title}</h3>
+          <p className="text-sm opacity-85">{item.subtitle}</p>
+          {item.handle && (
+            <p className="text-xs text-right opacity-70">{item.handle}</p>
           )}
         </footer>
       </article>
