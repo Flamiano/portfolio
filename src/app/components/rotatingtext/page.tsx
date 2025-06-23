@@ -218,7 +218,6 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
                 (sum, w) => sum + w.characters.length,
                 0
               );
-
               return (
                 <span
                   key={wordIndex}

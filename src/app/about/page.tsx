@@ -68,9 +68,7 @@ const AboutMeSection = () => {
                   texts={["Coding", "Thinking", "Components"]}
                   mainClassName="px-3 bg-[#5e17eb] text-white font-bold text-[2rem] md:text-[1.6rem] lg:text-[2.5rem] overflow-hidden justify-center rounded-lg"
                   staggerFrom="last"
-                  initial={{ y: "100%" }}
                   animate={{ y: 0 }}
-                  exit={{ y: "-120%" }}
                   staggerDuration={0.025}
                   splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
                   transition={{ type: "spring", damping: 30, stiffness: 400 }}
