@@ -30,7 +30,7 @@ export default function Home() {
         </Link>
 
         {/* Hero Section */}
-        <section className="max-w-[90%] mx-auto px-6 py-25 md:py-16" id="#home">
+        <section className="max-w-[90%] mx-auto px-6 py-38 md:py-30" id="#home">
           <div className="flex flex-col md:items-start items-center text-center md:text-left">
             {/* Top row: Name + Button */}
             <div className="flex items-center gap-4">
