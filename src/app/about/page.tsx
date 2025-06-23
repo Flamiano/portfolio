@@ -61,12 +61,12 @@ const AboutMeSection = () => {
 
           {/* Rotating Title */}
           <div className="text-center mt-2">
-            <h2 className="font-poppins font-extrabold text-[2rem] md:text-[1.6rem] lg:text-[2.5rem] text-[#5e17eb] leading-tight">
+            <h2 className="font-poppins font-extrabold text-[1.7rem] md:text-[1.6rem] lg:text-[2.5rem] text-[#5e17eb] leading-tight">
               Creative{" "}
               <span className="relative inline-block align-middle">
                 <RotatingText
                   texts={["Coding", "Thinking", "Components"]}
-                  mainClassName="px-3 bg-[#5e17eb] text-white font-bold text-[2rem] md:text-[1.6rem] lg:text-[2.5rem] overflow-hidden justify-center rounded-lg"
+                  mainClassName="px-3 bg-[#5e17eb] text-white font-bold text-[1.7rem] md:text-[1.6rem] lg:text-[2.5rem] overflow-hidden justify-center rounded-lg"
                   staggerFrom="last"
                   animate={{ y: 0 }}
                   staggerDuration={0.025}

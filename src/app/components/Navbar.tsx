@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -18,6 +18,23 @@ export const Navbar = () => {
   const [stage, setStage] = useState<"closed" | "logo" | "color" | "nav">(
     "closed"
   );
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (stage === "nav" || stage === "logo" || stage === "color") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [stage]);
 
   const openMenu = () => {
     setStage("logo");
@@ -32,7 +49,11 @@ export const Navbar = () => {
   const closeMenu = () => setStage("closed");
 
   return (
-    <header className="relative w-full bg-white font-poppins">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 font-poppins ${
+        scrolled ? "bg-white/60 backdrop-blur-3xl shadow-md" : "bg-transparent"
+      }`}
+    >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
@@ -67,7 +88,7 @@ export const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-white flex items-center justify-center"
+            className="fixed inset-0 z-40 bg-white flex items-center justify-center h-screen"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -94,7 +115,7 @@ export const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-30 bg-[#5e17eb]"
+            className="fixed inset-0 z-30 bg-[#5e17eb] h-screen"
           />
         )}
       </AnimatePresence>
@@ -108,7 +129,7 @@ export const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="fixed inset-0 z-30 bg-white px-6 flex flex-col items-center pt-6"
+            className="fixed inset-0 z-30 bg-white px-6 flex flex-col items-center pt-6 h-screen"
           >
             {/* Logo at top */}
             <Image
