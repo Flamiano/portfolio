@@ -15,19 +15,24 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 
 export const Navbar = () => {
-  const [stage, setStage] = useState<"closed" | "logo" | "nav">("closed");
+  const [stage, setStage] = useState<"closed" | "logo" | "color" | "nav">(
+    "closed"
+  );
 
   const openMenu = () => {
     setStage("logo");
     setTimeout(() => {
-      setStage("nav");
-    }, 1200);
+      setStage("color");
+      setTimeout(() => {
+        setStage("nav");
+      }, 600);
+    }, 800);
   };
 
   const closeMenu = () => setStage("closed");
 
   return (
-    <header className="relative w-full bg-white shadow-sm z-50">
+    <header className="relative w-full bg-white font-poppins">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
@@ -58,9 +63,9 @@ export const Navbar = () => {
         {stage === "logo" && (
           <motion.div
             key="logo-stage"
-            initial={{ x: "100%" }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
+            exit={{ x: "100%" }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-40 bg-white flex items-center justify-center"
           >
@@ -80,7 +85,21 @@ export const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Stage 2: White nav screen sliding in */}
+      {/* Stage 2: Color slide */}
+      <AnimatePresence>
+        {stage === "color" && (
+          <motion.div
+            key="color-slide"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-30 bg-[#5e17eb]"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Stage 3: White nav screen with logo at top and centered nav links */}
       <AnimatePresence>
         {stage === "nav" && (
           <motion.div
@@ -88,35 +107,52 @@ export const Navbar = () => {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-            className="fixed inset-0 z-30 bg-white px-6 pt-10 flex flex-col items-center"
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="fixed inset-0 z-30 bg-white px-6 flex flex-col items-center pt-6"
           >
             {/* Logo at top */}
             <Image
               src="/logo.png"
               alt="Top Logo"
-              width={60}
-              height={60}
-              className="mb-10"
+              width={100}
+              height={100}
+              className="mb-[-4.5rem]"
             />
 
-            {/* Nav Links */}
-            <div className="flex flex-col gap-6 items-center text-lg font-semibold text-[#5e17eb]">
-              <Link href="#home" onClick={closeMenu}>
-                Home
-              </Link>
-              <Link href="#education" onClick={closeMenu}>
-                Education
-              </Link>
-              <Link href="#projects" onClick={closeMenu}>
-                Projects
-              </Link>
-              <Link href="#techstack" onClick={closeMenu}>
-                Tech Stack
-              </Link>
-              <Link href="#contact" onClick={closeMenu}>
-                Contact
-              </Link>
+            {/* Nav Links container - center on screen vertically below logo */}
+            <div className="flex-1 flex flex-col justify-center items-center w-full">
+              <div className="flex flex-col gap-5 items-center text-lg font-semibold text-[#5e17eb] w-full max-w-[280px]">
+                <MobileLink
+                  href="#home"
+                  icon={<Home size={20} />}
+                  label="Home"
+                  onClick={closeMenu}
+                />
+                <MobileLink
+                  href="#education"
+                  icon={<GraduationCap size={20} />}
+                  label="Education"
+                  onClick={closeMenu}
+                />
+                <MobileLink
+                  href="#projects"
+                  icon={<Folder size={20} />}
+                  label="Projects"
+                  onClick={closeMenu}
+                />
+                <MobileLink
+                  href="#techstack"
+                  icon={<Wrench size={20} />}
+                  label="Tech Stack"
+                  onClick={closeMenu}
+                />
+                <MobileLink
+                  href="#contact"
+                  icon={<MapPin size={20} />}
+                  label="Contact"
+                  onClick={closeMenu}
+                />
+              </div>
             </div>
           </motion.div>
         )}
@@ -143,4 +179,22 @@ const NavLinks = () => (
       <MapPin size={20} />
     </Link>
   </>
+);
+
+type MobileLinkProps = {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+};
+
+const MobileLink = ({ href, icon, label, onClick }: MobileLinkProps) => (
+  <Link
+    href={href}
+    onClick={onClick}
+    className="w-full flex items-center gap-3 px-4 py-4 border border-[#5e17eb] rounded-lg hover:bg-[#f3ebff] transition"
+  >
+    {icon}
+    {label}
+  </Link>
 );

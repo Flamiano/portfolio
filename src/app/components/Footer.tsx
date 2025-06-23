@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#5e17eb] text-white py-8">
+    <footer className="bg-[#5e17eb] text-white py-8 font-poppins">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left: Text */}
         <div className="text-center md:text-left">
