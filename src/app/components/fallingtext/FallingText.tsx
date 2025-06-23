@@ -189,7 +189,7 @@ const FallingText: React.FC<FallingTextProps> = ({
         className="w-full max-h-[500px] h-[400px] cursor-pointer bg-transparent overflow-hidden rounded-t-xl border-b-0 border-purple-600"
       >
         {!effectStarted && (
-          <p className="text-center text-gray-800 px-2 md:px-4 text-lg md:text-xl leading-relaxed py-6 mt-4 md:mt-7 font-medium text-[13.5px] sm:text-[15px] md:text-[0.8rem] lg:text-[1rem]">
+          <p className="text-center text-gray-800 px-2 md:px-4 text-lg md:text-xl leading-relaxed py-6 mt-1 md:mt-4 font-medium text-[13.5px] sm:text-[15px] md:text-[0.8rem] lg:text-[1rem]">
             {text}
           </p>
         )}
