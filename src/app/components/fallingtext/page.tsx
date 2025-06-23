@@ -31,19 +31,28 @@ const FallingText: React.FC<FallingTextProps> = ({
 
   useEffect(() => {
     if (!effectStarted) return;
-    if (!containerRef.current || !canvasContainerRef.current) return;
+    if (
+      !containerRef.current ||
+      !canvasContainerRef.current ||
+      !textRef.current
+    )
+      return;
+
+    const containerEl = containerRef.current;
+    const canvasEl = canvasContainerRef.current;
+    const textEl = textRef.current;
 
     const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } =
       Matter;
 
-    const width = containerRef.current.offsetWidth;
-    const height = containerRef.current.offsetHeight;
+    const width = containerEl.offsetWidth;
+    const height = containerEl.offsetHeight;
 
     const engine = Engine.create();
     engine.world.gravity.y = gravity;
 
     const render = Render.create({
-      element: canvasContainerRef.current,
+      element: canvasEl,
       engine,
       options: {
         width,
@@ -61,7 +70,7 @@ const FallingText: React.FC<FallingTextProps> = ({
     ];
 
     const words = text.split(" ");
-    const spans = words.map((word, i) => {
+    const spans = words.map((word) => {
       const span = document.createElement("span");
       span.innerText = word;
       span.style.position = "absolute";
@@ -75,11 +84,10 @@ const FallingText: React.FC<FallingTextProps> = ({
         ? highlightClass
         : "text-gray-800";
 
-      textRef.current!.appendChild(span);
+      textEl.appendChild(span);
       return span;
     });
 
-    // Position spans horizontally centered
     let offsetX =
       (width - spans.reduce((acc, s) => acc + s.offsetWidth + 10, 0)) / 2;
     const yStart = 100;
@@ -92,9 +100,8 @@ const FallingText: React.FC<FallingTextProps> = ({
 
     const wordBodies = spans.map((span) => {
       const rect = span.getBoundingClientRect();
-
-      const x = width / 2 + (Math.random() - 0.5) * 50; // tightly around center X
-      const y = 50 + Math.random() * 20; // near top
+      const x = width / 2 + (Math.random() - 0.5) * 50;
+      const y = 50 + Math.random() * 20;
 
       const body = Bodies.rectangle(x, y, rect.width, rect.height, {
         render: { fillStyle: "transparent" },
@@ -108,7 +115,7 @@ const FallingText: React.FC<FallingTextProps> = ({
     });
 
     const runner = Runner.create();
-    const mouse = Mouse.create(containerRef.current);
+    const mouse = Mouse.create(containerEl);
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse,
       constraint: {
@@ -145,52 +152,53 @@ const FallingText: React.FC<FallingTextProps> = ({
       World.clear(engine.world, false);
       Engine.clear(engine);
 
-      if (render.canvas && canvasContainerRef.current) {
-        canvasContainerRef.current.removeChild(render.canvas);
+      if (render.canvas && canvasEl.contains(render.canvas)) {
+        canvasEl.removeChild(render.canvas);
       }
 
-      if (textRef.current) {
-        textRef.current.innerHTML = "";
-      }
+      textEl.innerHTML = "";
     };
-  }, [effectStarted]);
+  }, [
+    effectStarted,
+    backgroundColor,
+    gravity,
+    mouseConstraintStiffness,
+    text,
+    wireframes,
+    fontSize,
+    highlightWords,
+    highlightClass,
+  ]);
 
   const handleClick = () => {
     if (!effectStarted) {
-      if (textRef.current) {
-        textRef.current.innerHTML = "";
-      }
+      textRef.current?.replaceChildren(); // Clear existing text before animation
       setEffectStarted(true);
     }
   };
 
   return (
     <div className="relative w-full">
-      {/* Rumble Text Outside Top-Right */}
       <p className="absolute -top-7 md:-top-6 right-[-1.7rem] md:right-[-1.6rem] text-sm md:text-base text-white bg-[#5e17eb] font-semibold animate-rumble border-b-2 border-x-2 p-2 rounded-lg">
         Click Box To Rumble
       </p>
 
-      {/* Main Clickable Box */}
       <div
         ref={containerRef}
         onClick={handleClick}
-        className="w-full max-h-[500px] h-[400px] cursor-pointer bg-transparent overflow-hidden rounded-t-xl  border-b-0 border-purple-600"
+        className="w-full max-h-[500px] h-[400px] cursor-pointer bg-transparent overflow-hidden rounded-t-xl border-b-0 border-purple-600"
       >
-        {/* Static Text */}
         {!effectStarted && (
           <p className="text-center text-gray-800 px-2 md:px-4 text-lg md:text-xl leading-relaxed py-6 mt-4 md:mt-7 font-medium text-[13.5px] sm:text-[15px] md:text-[0.8rem] lg:text-[1rem]">
             {text}
           </p>
         )}
 
-        {/* Falling Words */}
         <div
           ref={textRef}
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
         />
 
-        {/* Matter.js Canvas Layer */}
         <div
           ref={canvasContainerRef}
           className="absolute top-0 left-0 w-full h-full z-[-1]"
