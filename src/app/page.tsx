@@ -8,7 +8,7 @@ import { Navbar } from "./components/Navbar";
 import ParticlesBg from "./ParticlesBg";
 import { Footer } from "./components/Footer";
 import AboutMeSection from "./about/page";
-import TrueFocus from "./components/truefocustext/page";
+import TrueFocus from "./components/truefocustext/TrueFocusText";
 
 export default function Home() {
   return (

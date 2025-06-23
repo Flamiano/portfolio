@@ -1,8 +1,8 @@
 "use client";
 
-import FallingText from "../components/fallingtext/page";
-import ChromaGrid from "../components/chromagrid/page";
-import RotatingText from "../components/rotatingtext/page";
+import FallingText from "../components/fallingtext/FallingText";
+import ChromaGrid from "../components/chromagrid/ChromaGrid";
+import RotatingText from "../components/rotatingtext/RotatingText";
 
 const items = [
   {
