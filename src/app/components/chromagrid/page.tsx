@@ -2,6 +2,8 @@
 
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import Image from "next/image"; 
+
 
 export interface ChromaItem {
   image: string;
@@ -131,10 +133,13 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
         />
 
         <div className="relative z-10 p-5">
-          <img
+          <Image
             src={item.image}
             alt={item.title}
+            width={400}
+            height={400}
             className="w-full h-[400px] object-cover rounded-[10px]"
+            priority 
           />
         </div>
 
