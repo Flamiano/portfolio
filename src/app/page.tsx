@@ -1,14 +1,13 @@
 "use client";
 
-import {
-  MessageCircle,
-} from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Navbar } from "./components/Navbar";
 import ParticlesBg from "./ParticlesBg";
 import { Footer } from "./components/Footer";
 import AboutMeSection from "./about/page";
 import TrueFocus from "./components/truefocustext/TrueFocusText";
+import EducationSection from "./education/page";
 
 export default function Home() {
   return (
@@ -68,7 +67,7 @@ export default function Home() {
 
             {/* Divider */}
             <div className="hidden md:block text-gray-400 text-3xl">|</div>
-            
+
             <TrueFocus
               sentence="Web Developer|Software Engineer|Web Designer"
               manualMode={false}
@@ -130,6 +129,9 @@ export default function Home() {
 
         {/* About Me Section */}
         <AboutMeSection />
+
+        {/* Education Section */}
+        <EducationSection />
       </div>
       <Footer />
     </div>
