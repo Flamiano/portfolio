@@ -73,8 +73,6 @@ export default function EducationSection() {
       {/* Education Cards */}
       <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center max-w-[700px] mx-auto">
         {educationData.map((item, index) => {
-          const isActive = isTouchDevice ? activeIndex === index : undefined;
-
           return (
             <div key={index} className="flex justify-center w-full md:w-auto">
               <motion.div
