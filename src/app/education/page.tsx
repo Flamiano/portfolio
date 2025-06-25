@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import PixelTransition from "../components/card-education-transition/PixelTransition";
 
@@ -9,29 +10,32 @@ const educationData = [
     year: "2023 - Present",
     level: "College",
     school: "Bestlink College of the Philippines",
-    logo: "../education/Bestlink.png",
-    awards: ["🎖️ Dean's Lister (1st Year)", "🏅 President's Lister (2nd Year)"],
+    logo: "/education/Bestlink.png",
+    awards: [
+      "🎖️ Dean&apos;s Lister (1st Year)",
+      "🏅 President&apos;s Lister (2nd Year)",
+    ],
     isPresent: true,
   },
   {
     year: "2021 - 2023",
     level: "Senior High School",
     school: "Gardner College, Diliman Q.C.",
-    logo: "../education/Gardner.png",
+    logo: "/education/Gardner.png",
     awards: ["With High Honors", "🥇 Top 1 in Class", "Best in Programming"],
   },
   {
     year: "2017 - 2021",
     level: "Junior High School",
     school: "Masambong High School",
-    logo: "../education/Masambong.png",
+    logo: "/education/Masambong.png",
     awards: ["🎖️ With Honor"],
   },
   {
     year: "2011 - 2017",
     level: "Elementary School",
     school: "Apolonio Samson Elementary School",
-    logo: "../education/Apolonio.png",
+    logo: "/education/Apolonio.png",
     awards: [],
   },
 ];
@@ -66,6 +70,7 @@ export default function EducationSection() {
         </h1>
       </div>
 
+      {/* Education Cards */}
       <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center max-w-[700px] mx-auto">
         {educationData.map((item, index) => {
           const isActive = isTouchDevice ? activeIndex === index : undefined;
@@ -86,11 +91,14 @@ export default function EducationSection() {
                   </div>
                 )}
 
-                {/* Hover Me Label (Top Right) */}
-                <div className="absolute top-2 right-2 text-xs text-gray-500 font-semibold z-20">
-                  Hover Me
-                </div>
+                {/* Hover Me Label (Desktop only) */}
+                {!isTouchDevice && (
+                  <div className="absolute top-2 right-2 text-xs text-gray-500 font-semibold z-20">
+                    Hover Me
+                  </div>
+                )}
 
+                {/* Card with Touch Support */}
                 <div
                   onClick={() => {
                     if (isTouchDevice) {
@@ -102,21 +110,28 @@ export default function EducationSection() {
                   <PixelTransition
                     firstContent={
                       <div className="bg-white w-[300px] h-[300px] flex items-center justify-center p-4 rounded-lg border-l-4 border-[#5e17eb]">
-                        <img
+                        <Image
                           src={item.logo}
                           alt={`${item.school} Logo`}
+                          width={180}
+                          height={180}
                           className="object-contain h-[180px] w-auto"
                         />
                       </div>
                     }
                     secondContent={
                       <div className="w-[300px] h-[300px] flex flex-col justify-center items-center bg-[#5e17eb] text-white p-4 rounded-lg text-center overflow-y-auto">
-                        <p className="text-lg font-bold text-[13px]">{item.school}</p>
+                        <p className="text-lg font-bold text-[13px]">
+                          {item.school}
+                        </p>
                         <p className="text-sm">{item.year}</p>
                         {item.awards.length > 0 && (
                           <ul className="text-sm mt-2 space-y-1 list-disc list-inside">
                             {item.awards.map((award, i) => (
-                              <li key={i}>{award}</li>
+                              <li
+                                key={i}
+                                dangerouslySetInnerHTML={{ __html: award }}
+                              />
                             ))}
                           </ul>
                         )}
@@ -134,7 +149,7 @@ export default function EducationSection() {
         })}
       </div>
 
-      {/* Essay */}
+      {/* Essay Section */}
       <div className="max-w-4xl mx-auto mt-16 px-4 text-center text-gray-700">
         <h2 className="text-2xl font-bold text-[#5e17eb] mb-4">My Story</h2>
         <p className="mb-4">
@@ -152,7 +167,7 @@ export default function EducationSection() {
           to the joy of learning and discovering.
         </p>
         <p>
-          Today, as an IT college student, I'm diving deep into software
+          Today, as an IT college student, I&apos;m diving deep into software
           development, web design, and database systems. Each project, lesson,
           and challenge is preparing me for the real world. My goal is not just
           to become a skilled developer but also to create solutions that
